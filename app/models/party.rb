@@ -1,17 +1,20 @@
 class Party < ApplicationRecord
   validates :word, presence: true
-  validates :available, inclusion: { in: [true] }
+  validates :ten_letters_list, presence: true, length: { is: 10 }
+  validates :available, inclusion: { in: [true, false] }
   validate :validate_word_letters
 
   def validate_word_letters
-    ten_letters_list = self.ten_letters_list.split('')
-    word = self.word.split('')
-    ten_letters_list.each do |letter|
-      if word.include?(letter)
-        word.delete_at(word.index(letter))
-        ten_letters_list.delete_at(ten_letters_list.index(letter))
-      else
-        return errors.add(:word, "must be composed of the letters in ten_letters_list")
+    ten_letters_list.split('').each do |letter|
+      if word.count(letter) > ten_letters_list.count(letter)
+        errors.add(:word, "can't contain more #{letter}'s than in the ten letters list")
+      end
+    end
+
+    word.upcase.split('').each do |letter|
+      unless ten_letters_list.upcase.include?(letter)
+        errors.add(:word, "can't contain letters that are not in the ten letters list")
+        break
       end
     end
   end

@@ -1,2 +1,20 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<div class="container mt-5">
+  <h1 class="text-center">Welcome to the longest word game</h1>
+  <p class="text-center">You will be given a random string of characters and your goal is to find the longest word that can be made from those characters.</p>
+  <p class="text-center">You can only use each character once and you can only use each character as many times as it appears in the string.</p>
+  <p class="text-center">Good luck!</p>
+  <div class="row mt-5">
+    <div class="col-12">
+      <h2 class="text-center">Play the game</h2>
+      <p class="text-center">Click the button below to start the game</p>
+      <% if current_user %>
+        <div class="d-flex justify-content-center">
+          <%= link_to "Start game", games_path, class: "btn btn-primary btn-lg", data: { 'turbo-method' => :post } %>
+        </div>
+      <% else %>
+        <div></div>
+        <p class="text-center">If you don't see the button, that's cuz you're not logged ! Please sign in you</p>
+      <% end %>
+    </div>
+  </div>
+</div>
